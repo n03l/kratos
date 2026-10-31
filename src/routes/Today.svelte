@@ -48,10 +48,6 @@
     startWorkout(r?.id);
     navigate('/workout');
   }
-
-  function outline(r: Routine) {
-    return r.blocks.map((b) => b.items.map((i) => exercise(i.exerciseId)?.name ?? 'Unknown'));
-  }
 </script>
 
 <section class="page">
@@ -90,14 +86,6 @@
         </div>
         <MuscleMap sets={routineSetsPerMuscle(next, exercise)} height={112} />
       </div>
-      <ol class="outline">
-        {#each outline(next) as names, i (i)}
-          <li class:ss={names.length > 1}>
-            {#if names.length > 1}<span class="ss-tag small">Superset</span>{/if}
-            {names.join(' + ')}
-          </li>
-        {/each}
-      </ol>
       <button class="btn go block" onclick={() => start(next)}>Start {dayOf(next.name)}</button>
     </article>
   {/if}
@@ -179,13 +167,6 @@
   .next p { margin: 0; }
   .next-head { display: flex; align-items: center; gap: 12px; --map-body: var(--iron-3); --map-rest: color-mix(in srgb, var(--chalk-faint) 35%, var(--iron-3)); }
   .next-name { font: 700 1.75rem/1.15 var(--font); letter-spacing: -0.01em; overflow-wrap: anywhere; }
-  .outline { margin: 0; padding: 0; list-style: none; display: grid; gap: 0; counter-reset: ex; }
-  .outline li {
-    counter-increment: ex; display: flex; align-items: baseline; gap: 10px; padding: 9px 0;
-    border-top: 1px solid var(--line); font-weight: 500; overflow-wrap: anywhere;
-  }
-  .outline li::before { content: counter(ex); width: 16px; flex: none; color: var(--chalk-faint); font: 600 0.95rem var(--font-num); }
-  .ss-tag { flex: none; padding: 1px 7px; border-radius: 6px; background: color-mix(in srgb, var(--plate-blue) 25%, transparent); color: var(--ink-blue); }
 
   .week { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin: 0; padding: 0; list-style: none; }
   .week li { display: grid; justify-items: center; gap: 6px; }
