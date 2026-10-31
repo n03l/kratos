@@ -130,9 +130,9 @@ Timed exercises progress 5 seconds at a time.
   forgot, remove an exercise, change the name, date and time, length, gym or notes, or delete the whole workout.
   History, records and next targets follow the change.
 - **Progress**: your number of workouts, workouts this month, the weeks in a row you've trained and the total
-  weight lifted; body weight with its trend; your main lifts' estimated max over 12 weeks, with the change in the
-  last 4 (free-weight lifts you train most; tap one for its charts); body measurements (waist, chest, arm, thigh);
-  sets per muscle over the last 7 days; and recent records.
+  weight lifted; body weight with a smoothed trend line that evens out day-to-day swings; your main lifts'
+  estimated max over 12 weeks, with the change in the last 4 (free-weight lifts you train most; tap one for its
+  charts); body measurements (waist, chest, arm, thigh); sets per muscle over the last 7 days; and recent records.
 - **Records**: the best estimated one-rep max; for bodyweight exercises, the most added weight or the most reps;
   for timed exercises, the longest hold.
 

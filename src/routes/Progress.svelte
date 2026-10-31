@@ -13,12 +13,22 @@
   import { mainLifts } from '../lib/logic/strength';
   import { workoutStats } from '../lib/logic/stats';
   import { tonnes } from '../lib/format';
+  import { weightTrend } from '../lib/logic/trend';
 
   const body = $derived(db().body);
   const stats = $derived(workoutStats(db().sessions, Date.now()));
   const lifts = $derived(mainLifts(historyByExercise(), db().exercises, Date.now()));
   const weights = $derived(body.filter((b) => b.weight !== undefined));
   const latest = $derived(weights.at(-1));
+  // A trend needs a few readings to say more than the readings themselves.
+  const weightPoints = $derived.by(() => {
+    const pts = weights.map((b) => ({ x: Date.parse(b.date), y: b.weight! }));
+    if (pts.length < 3) return pts;
+    const trend = weightTrend(pts);
+    return pts.map((p, i) => ({ ...p, trend: trend[i] }));
+  });
+  const weightLegend = $derived(weightPoints.length >= 3
+    ? [{ label: 'Weigh-ins', color: 'var(--chalk-faint)' }, { label: 'Trend', color: 'var(--chalk)' }] : []);
   const monthAgo = $derived.by(() => {
     if (!latest) return undefined;
     const cutoff = Date.parse(latest.date) - 28 * 86_400_000;
@@ -81,7 +91,7 @@
         {/if}
       </p>
     </div>
-    <Chart title="Body weight" showTitle={false} points={weights.map((b) => ({ x: Date.parse(b.date), y: b.weight! }))} height={160} />
+    <Chart title="Body weight" showTitle={false} points={weightPoints} legend={weightLegend} height={160} />
   </section>
 
   {#if lifts.length}

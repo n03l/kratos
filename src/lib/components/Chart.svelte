@@ -5,6 +5,8 @@
     /** Series colour for this mark (e.g. its gym); defaults to chalk. */
     color?: string;
     note?: string;
+    /** Smoothed value at this point; when points carry one, the chart draws it as the main line. */
+    trend?: number;
   }
   export interface LegendItem { label: string; color: string }
 </script>
@@ -38,6 +40,10 @@
     for (const p of sorted) {
       lo = Math.min(lo, p.y);
       hi = Math.max(hi, p.y);
+      if (p.trend !== undefined) {
+        lo = Math.min(lo, p.trend);
+        hi = Math.max(hi, p.trend);
+      }
     }
     if (kind === 'bars') lo = 0;
     if (lo === hi) { lo -= 1; hi += 1; }
@@ -60,7 +66,10 @@
     };
   });
 
-  const path = $derived(sorted.map((p, i) => `${i ? 'L' : 'M'}${scale.x(p.x, i).toFixed(1)},${scale.y(p.y).toFixed(1)}`).join(''));
+  const line = (ys: number[]) => ys.map((y, i) => `${i ? 'L' : 'M'}${scale.x(sorted[i].x, i).toFixed(1)},${scale.y(y).toFixed(1)}`).join('');
+  const path = $derived(line(sorted.map((p) => p.y)));
+  const hasTrend = $derived(kind === 'line' && sorted.length > 0 && sorted.every((p) => p.trend !== undefined));
+  const trendPath = $derived(hasTrend ? line(sorted.map((p) => p.trend!)) : '');
   const fmtDate = (ms: number) => new Date(ms).toLocaleDateString(undefined, { day: 'numeric', month: 'short' });
   const fmt = (v: number) => (Number.isInteger(v) ? v.toLocaleString() : v.toFixed(digits));
 
@@ -114,13 +123,17 @@
               d={barPath(scale.x(p.x, i), scale.y(p.y), scale.y(scale.ticks[0]), Math.min(24, Math.max(2, scale.band - 2)))} />
           {/each}
         {:else}
-          <path class="line" d={path} />
+          <path class="line" class:raw={hasTrend} d={path} />
+          {#if hasTrend}<path class="line trend" d={trendPath} />{/if}
           {#each sorted as p, i (i)}
             {#if p.color || i === sorted.length - 1 || hover === i}
-              <circle cx={scale.x(p.x, i)} cy={scale.y(p.y)} r={hover === i ? 6 : 4.5} fill={p.color ?? 'var(--chalk)'} class="dot" />
+              <circle cx={scale.x(p.x, i)} cy={scale.y(p.y)} r={hover === i ? 6 : 4.5} fill={p.color ?? (hasTrend ? 'var(--chalk-dim)' : 'var(--chalk)')} class="dot" />
+            {/if}
+            {#if hasTrend && hover === i}
+              <circle cx={scale.x(p.x, i)} cy={scale.y(p.trend!)} r={4.5} fill="var(--chalk)" class="dot" />
             {/if}
           {/each}
-          <text class="end num" x={scale.x(last!.x, sorted.length - 1) + 9} y={scale.y(last!.y)} dy="0.32em">{fmt(last!.y)}</text>
+          <text class="end num" x={scale.x(last!.x, sorted.length - 1) + 9} y={scale.y(hasTrend ? last!.trend! : last!.y)} dy="0.32em">{fmt(hasTrend ? last!.trend! : last!.y)}</text>
         {/if}
 
         {#if hp && hover !== null}
@@ -130,6 +143,7 @@
       {#if hp && hover !== null}
         <div class="tip small" style:left="{Math.min(width - 150, Math.max(0, scale.x(hp.x, hover) - 75))}px">
           <strong class="num">{fmt(hp.y)} {unit}</strong>
+          {#if hasTrend}<span class="num">Trend {fmt(hp.trend!)} {unit}</span>{/if}
           <span class="muted">{fmtDate(hp.x)}{hp.note ? `, ${hp.note}` : ''}</span>
         </div>
       {/if}
@@ -137,10 +151,10 @@
     <details class="table small">
       <summary class="faint">Show as table</summary>
       <table>
-        <thead><tr><th>Date</th><th>{unit}</th><th></th></tr></thead>
+        <thead><tr><th>Date</th><th>{unit}</th>{#if hasTrend}<th>Trend</th>{/if}<th></th></tr></thead>
         <tbody>
           {#each [...sorted].reverse() as p, i (i)}
-            <tr><td>{fmtDate(p.x)}</td><td class="num">{fmt(p.y)}</td><td class="muted">{p.note ?? ''}</td></tr>
+            <tr><td>{fmtDate(p.x)}</td><td class="num">{fmt(p.y)}</td>{#if hasTrend}<td class="num">{fmt(p.trend!)}</td>{/if}<td class="muted">{p.note ?? ''}</td></tr>
           {/each}
         </tbody>
       </table>
@@ -158,6 +172,8 @@
   .grid { stroke: var(--iron-3); stroke-width: 1; }
   .tick { fill: var(--chalk-faint); font: 500 12px var(--font-num); }
   .line { fill: none; stroke: var(--chalk); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; opacity: 0.85; }
+  .line.raw { stroke: var(--chalk-faint); stroke-width: 1.5; opacity: 1; }
+  .line.trend { opacity: 1; }
   .dot { stroke: var(--iron-1); stroke-width: 2; }
   .end { fill: var(--chalk); font-size: 14px; font-weight: 600; }
   .bar.dim { opacity: 0.45; }
