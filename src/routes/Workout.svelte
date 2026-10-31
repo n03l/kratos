@@ -107,7 +107,7 @@
     <header class="bar">
       <div class="top">
         <div class="grow">
-          <h1 class="wname">{dayOf(s.name)}</h1>
+          <h1 class="wname">{s.name}</h1>
           <span class="num elapsed muted">{clock(app.now - Date.parse(s.startedAt))} · {doneCount} of {allSets.length} sets</span>
         </div>
         <button class="icon-btn round" onclick={() => (menuOpen = true)} aria-label="Workout options"><Icon name="more" /></button>
