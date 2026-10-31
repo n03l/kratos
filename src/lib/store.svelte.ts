@@ -9,7 +9,7 @@ import {
 import { restAfter, restCues, upNext, type RestContext } from './logic/rest';
 import { formatDistance, gymAt, type Fix } from './logic/geo';
 import { deleteExercise } from './logic/library';
-import { decide, hashText, isBlank, mergeBoth, parseSyncState, type RemoteFile, type SyncState } from './logic/sync';
+import { afterDownload, dataHash, decide, hashText, isBlank, mergeBoth, parseSyncState, type RemoteFile, type SyncState } from './logic/sync';
 import { clientId, DriveApi, DriveError, NeedsSignIn, loadGis } from './sync/drive';
 import { IdbRepo } from './repo/idb';
 import { starter } from './repo/starter';
@@ -983,17 +983,27 @@ async function runSync(interactive: boolean) {
     const remote = (st.fileId ? await drive.meta(st.fileId) : null) ?? await drive.find();
     const local = $state.snapshot(app.data);
     const text = JSON.stringify(local);
-    const hash = hashText(text);
+    const hash = dataHash(local);
     const action = decide(hash, st, remote, isBlank(local));
     if (action === 'none') await recordSync(remote!, hash, account);
     else if (action === 'create') await recordSync(await drive.create(text), hash, account);
     else if (action === 'push') await recordSync(await drive.update(remote!.id, text), hash, account);
     else {
-      const data = parseBackup(await drive.download(remote!.id));
+      const raw = await drive.download(remote!.id);
+      const data = parseBackup(raw);
       // Changes made here during the download (a deleted workout, an erase) must not be overwritten.
-      const unchanged = hashText(JSON.stringify($state.snapshot(app.data))) === hash;
-      if (hashText(JSON.stringify(data)) === hash) await recordSync(remote!, hash, account);
-      else if (action === 'pull' && !app.active && unchanged) await takeRemote(remote!, data, account);
+      const now = $state.snapshot(app.data);
+      const next = afterDownload(action, {
+        local: hash,
+        localNow: dataHash(now),
+        // hashText(raw) matches hashes recorded before dataHash, when this device uploaded the file.
+        remote: [dataHash(data), hashText(raw)],
+        synced: st.hash,
+        canTake: !app.active,
+      });
+      if (next === 'record') await recordSync(remote!, hash, account);
+      else if (next === 'push') await recordSync(await drive.update(remote!.id, JSON.stringify(now)), dataHash(now), account);
+      else if (next === 'take') await takeRemote(remote!, data, account);
       else {
         app.sync.remote = { file: remote!, data };
         app.sync.status = 'conflict';
@@ -1045,7 +1055,7 @@ async function takeRemote(file: RemoteFile, data: Snapshot, account: string) {
   if (!gym(app.gymId)) app.gymId = data.settings.defaultGymId;
   await saveNow();
   if (!canSave) throw new OtherTabError();
-  await recordSync(file, hashText(JSON.stringify($state.snapshot(app.data))), account);
+  await recordSync(file, dataHash($state.snapshot(app.data)), account);
 }
 
 /**
@@ -1089,8 +1099,8 @@ async function settle(choice: 'merge' | 'drive' | 'device') {
       await saveNow();
       if (!canSave) throw new OtherTabError();
     }
-    const text = JSON.stringify($state.snapshot(app.data));
-    await recordSync(await drive.update(remote.file.id, text), hashText(text), account);
+    const snap = $state.snapshot(app.data);
+    await recordSync(await drive.update(remote.file.id, JSON.stringify(snap)), dataHash(snap), account);
   } catch (err) {
     syncFailed(err, 'conflict');
   }

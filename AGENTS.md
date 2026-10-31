@@ -169,7 +169,8 @@ Treat every input as hostile: imported backups, data already in IndexedDB, and a
   `parseRemoteFile`, stored sync state through `parseSyncState`. Sync state records the account (Drive's
   `permissionId`); a token for another account is refused (`signIn` in the store) before any file is read or
   written. Sync never overwrites local changes made during a download, an erase on a synced device is never
-  undone without asking, and settling a conflict re-checks Drive's version first. The OAuth client id is public and comes from
+  undone without asking, and settling a conflict re-checks Drive's version first. Changes are detected with `dataHash`, which ignores field order (loading rebuilds objects in a fixed order), and a
+  moved Drive version only counts as a change if Drive's content differs from what was last synced (`afterDownload`). The OAuth client id is public and comes from
   `GOOGLE_CLIENT_ID`. The build adds a CSP (`vite.config.ts`) allowing only Google's sign-in script and
   the Drive API besides the app; extend it deliberately if a new origin is needed.
 - `tools/` scripts open user backups read-only and write only their output file; never commit those files.

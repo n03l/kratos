@@ -54,6 +54,38 @@ export function hashText(text: string): string {
   return (4294967296 * (2097151 & h2) + (h1 >>> 0)).toString(36);
 }
 
+/**
+ * Hash of the data itself, whatever order its fields were set in. Loading rebuilds every object in a fixed
+ * field order (parseBackup) while store functions add fields at the end, so the same data can serialise to
+ * different text before and after a reload.
+ */
+export function dataHash(data: unknown): string {
+  return hashText(JSON.stringify(data, (_key, value: unknown) => {
+    if (typeof value !== 'object' || value === null || Array.isArray(value)) return value;
+    const o = value as Record<string, unknown>;
+    return Object.fromEntries(Object.keys(o).sort().map((k) => [k, o[k]]));
+  }));
+}
+
+export type AfterDownload = 'record' | 'push' | 'take' | 'conflict';
+
+/**
+ * Settle a pull or conflict once Drive's copy is downloaded. Drive's version counter also moves without
+ * anyone editing the file, so Drive's content is compared with what was last synced before calling it changed.
+ * - `local`: hash of this device's data when the sync started; `localNow`: after the download.
+ * - `remote`: hashes of Drive's copy (its raw text, as an upload from this device recorded it, and its data).
+ * - `canTake`: no workout in progress, so Drive's copy may replace the data here.
+ */
+export function afterDownload(
+  action: 'pull' | 'conflict',
+  o: { local: string; localNow: string; remote: string[]; synced?: string; canTake: boolean },
+): AfterDownload {
+  if (o.remote.includes(o.local)) return 'record';
+  if (o.synced !== undefined && o.remote.includes(o.synced)) return 'push';
+  if (action === 'pull' && o.canTake && o.localNow === o.local) return 'take';
+  return 'conflict';
+}
+
 const ALL: MergePick = { routines: true, exercises: true, sessions: true, body: true };
 
 /** Both sides' data: this device's, plus whatever Drive has that isn't here. Nothing is deleted. */

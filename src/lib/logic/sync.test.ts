@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { seed } from '../repo/mock';
 import { starter } from '../repo/starter';
 import { parseBackup } from '../repo/validate';
-import { decide, hashText, isBlank, mergeBoth, parseRemoteFile, parseSyncState } from './sync';
+import { afterDownload, dataHash, decide, hashText, isBlank, mergeBoth, parseRemoteFile, parseSyncState } from './sync';
 
 const synced = { fileId: 'f1', version: '7', hash: 'abc' };
 
@@ -45,6 +45,52 @@ describe('hashText', () => {
     expect(hashText('kratos')).toBe(hashText('kratos'));
     expect(hashText('kratos')).not.toBe(hashText('kratoz'));
     expect(hashText('')).toMatch(/^[0-9a-z]+$/);
+  });
+});
+
+describe('dataHash', () => {
+  it('ignores field order, so a reload is not a change', () => {
+    for (const snap of [seed(), starter()]) {
+      const reloaded = parseBackup(JSON.stringify(snap));
+      expect(dataHash(reloaded)).toBe(dataHash(snap));
+      snap.exercises[0].archived = true; // added last, as store functions do
+      expect(dataHash(parseBackup(JSON.stringify(snap)))).toBe(dataHash(snap));
+    }
+  });
+
+  it('changes with the data', () => {
+    const snap = seed();
+    const before = dataHash(snap);
+    snap.sessions[0].blocks[0].items[0].sets[0].reps += 1;
+    expect(dataHash(snap)).not.toBe(before);
+  });
+});
+
+describe('afterDownload', () => {
+  const base = { local: 'L', localNow: 'L', synced: 'S', canTake: true };
+
+  it('records when Drive has the same data', () => {
+    expect(afterDownload('conflict', { ...base, remote: ['L', 'x'] })).toBe('record');
+    expect(afterDownload('pull', { ...base, local: 'S', localNow: 'S', remote: ['x', 'S'] })).toBe('record');
+  });
+
+  it('pushes when only Drive’s version moved, not its content', () => {
+    expect(afterDownload('conflict', { ...base, remote: ['S', 'x'] })).toBe('push');
+    expect(afterDownload('conflict', { ...base, remote: ['x', 'S'] })).toBe('push');
+  });
+
+  it('takes Drive’s copy on a pull when nothing changed here', () => {
+    expect(afterDownload('pull', { ...base, local: 'S', localNow: 'S', remote: ['R', 'r'] })).toBe('take');
+  });
+
+  it('asks when both changed, a workout is running, or data changed during the download', () => {
+    expect(afterDownload('conflict', { ...base, remote: ['R', 'r'] })).toBe('conflict');
+    expect(afterDownload('pull', { ...base, local: 'S', localNow: 'S', canTake: false, remote: ['R', 'r'] })).toBe('conflict');
+    expect(afterDownload('pull', { ...base, local: 'S', localNow: 'E', remote: ['R', 'r'] })).toBe('conflict');
+  });
+
+  it('never pushes over Drive on a first sync', () => {
+    expect(afterDownload('conflict', { ...base, synced: undefined, remote: ['R', 'r'] })).toBe('conflict');
   });
 });
 
