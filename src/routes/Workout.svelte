@@ -29,30 +29,6 @@
   const unlogged = $derived(s ? unloggedSets(s) : []);
   const currentGym = $derived(gym(app.gymId));
 
-  /** One chip per exercise: superset items are A1, A2…; the current one is the first with a set to do. */
-  const chips = $derived.by(() => {
-    if (!s) return [];
-    const list = s.blocks.flatMap((b, bi) =>
-      b.items.map((item, ii) => ({
-        bi, ii,
-        label: b.items.length > 1 ? `${letters[bi]}${ii + 1}` : '',
-        name: exercise(item.exerciseId)?.name ?? 'Exercise',
-        done: item.sets.length > 0 && item.sets.every((x) => x.done),
-        current: false,
-      })),
-    );
-    let n = 0;
-    for (const c of list) if (!c.label) c.label = String(++n);
-    const cur = list.find((c) => !c.done);
-    if (cur) cur.current = true;
-    return list;
-  });
-
-  function jump(bi: number, ii: number) {
-    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    document.getElementById(`ex-${bi}-${ii}`)?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
-  }
-
   /** Close the options sheet, then run the action (one sheet at a time). */
   function menu(fn: () => void) {
     menuOpen = false;
@@ -140,14 +116,6 @@
       <div class="progress" role="progressbar" aria-label="Sets logged" aria-valuemin={0} aria-valuemax={allSets.length} aria-valuenow={doneCount}>
         <div class="fill" style:transform="scaleX({allSets.length ? doneCount / allSets.length : 0})"></div>
       </div>
-      {#if chips.length > 1}
-        <nav class="chips scroll-x" aria-label="Exercises">
-          {#each chips as c (`${c.bi}-${c.ii}`)}
-            <button class="ex-chip num" class:done={c.done} class:current={c.current} onclick={() => jump(c.bi, c.ii)}
-              aria-label="{c.name}{c.done ? ', done' : c.current ? ', up next' : ''}. Go to exercise">{c.label}</button>
-          {/each}
-        </nav>
-      {/if}
     </header>
 
     {#if app.gymNotice}
@@ -289,13 +257,6 @@
   .elapsed { font-size: 0.9375rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .progress { height: 3px; border-radius: 2px; background: var(--iron-2); overflow: hidden; }
   .progress .fill { height: 100%; background: var(--go); transform-origin: left; transition: transform 250ms ease-out; }
-  .chips { gap: 6px; padding-bottom: 2px; }
-  .ex-chip {
-    flex: none; min-width: 32px; height: 32px; padding: 0 8px; border: 0; border-radius: 16px;
-    background: var(--iron-2); color: var(--chalk-dim); font-size: 0.875rem; font-weight: 700;
-  }
-  .ex-chip.done { background: color-mix(in srgb, var(--go) 24%, transparent); color: var(--ink-green); }
-  .ex-chip.current { background: var(--iron-0); color: var(--chalk); box-shadow: inset 0 0 0 2px var(--chalk); }
   .opt { flex: 1; }
   .gym-name { display: inline-flex; align-items: center; gap: 8px; max-width: 50%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 

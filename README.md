@@ -33,9 +33,8 @@ of workouts. **More → Erase all data** starts again from scratch.
 and your other routines, each with a small body map of the muscles it trains. Start a routine, or an empty workout
 and add exercises as you go.
 
-At the top of a workout you see its name, the time so far, how many sets you've logged and a progress bar. Below
-them, a numbered button for each exercise (A1, A2 for a superset) shows which are done and which is next: tap one to
-jump to it. The **⋯** button starts a rest timer, changes the gym, adds an exercise, renames the workout or discards it.
+At the top of a workout you see its name, the time so far, how many sets you've logged and a progress bar. The
+**⋯** button starts a rest timer, changes the gym, adds an exercise, renames the workout or discards it.
 
 During a workout each exercise card shows:
 

@@ -112,7 +112,7 @@
   }
 </script>
 
-<article class="card" id="ex-{blockIndex}-{itemIndex}" class:linked={inSuperset} class:timed class:folded>
+<article class="card" class:linked={inSuperset} class:timed class:folded>
   {#if folded}
     <button class="fold-row" onclick={() => (reopened = true)} aria-label="{ex.name}, done: {setsSummary(item.sets, ex)}. Show sets">
       {#if label}<span class="ss num" aria-hidden="true">{label}</span>{/if}
