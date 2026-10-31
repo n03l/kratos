@@ -86,7 +86,7 @@
         </div>
         <MuscleMap sets={routineSetsPerMuscle(next, exercise)} height={112} />
       </div>
-      <button class="btn go block" onclick={() => start(next)}>Start {dayOf(next.name)}</button>
+      <button class="btn go block" onclick={() => start(next)}>Start workout</button>
     </article>
   {/if}
 
