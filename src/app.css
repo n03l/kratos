@@ -1,0 +1,274 @@
+:root {
+  /* Iron: the floor of the app. */
+  --iron-0: #0b0c0f;
+  --iron-1: #1c1f26;
+  --iron-2: #262a33;
+  --iron-3: #343945;
+  --line: #2c313b;
+
+  /* Chalk: text and the primary action. */
+  --chalk: #ecebe4;
+  --chalk-dim: #a3a7af;
+  --chalk-faint: #6f7480;
+
+  /* Competition plate colours carry meaning: blue superset, green myo-reps, yellow progress/PRs, red destructive. */
+  --plate-red: #e0433f;
+  --plate-blue: #2f6feb;
+  --plate-yellow: #f0b429;
+  --plate-green: #2fa36b;
+  --plate-white: #d9d9d4;
+  --gym-red: #e0433f;
+  --gym-blue: #2f6feb;
+  --gym-green: #2fa36b;
+  --gym-violet: #a66ce0;
+  --ink-red: #f2706c;
+  --ink-blue: #7aa5ff;
+  --ink-yellow: #f6c75a;
+  --ink-green: #5fd197;
+  /* The go action (start, log a set, finish, skip rest): green, as for done and live. */
+  --go: var(--plate-green);
+  --on-go: var(--iron-0);
+
+  --font: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-num: var(--font);
+
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 18px;
+  --tap: 48px;
+  --nav-h: 64px;
+  --safe-b: env(safe-area-inset-bottom, 0px);
+
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--iron-0);
+  color: var(--chalk);
+  font: 400 16px/1.45 var(--font);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+h1, h2, h3 { margin: 0; font-weight: 600; }
+
+/* Fieldsets otherwise grow to their widest content and push the page sideways on phones. */
+fieldset { min-width: 0; }
+
+.title {
+  font: 700 1.875rem/1.15 var(--font);
+  letter-spacing: -0.01em;
+}
+
+.subtitle { margin: 2px 0 0; font-size: 1.0625rem; color: var(--chalk-dim); }
+
+.h2 {
+  font: 600 1.25rem/1.2 var(--font);
+}
+
+.h3 {
+  font: 600 1.0625rem/1.25 var(--font);
+}
+
+.muted { color: var(--chalk-dim); }
+.faint { color: var(--chalk-faint); }
+.small { font-size: 0.9375rem; }
+
+.num {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+}
+
+a { color: inherit; }
+
+button, input, select, textarea { font: inherit; color: inherit; }
+
+button { cursor: pointer; }
+
+:focus-visible {
+  outline: 2px solid var(--chalk);
+  outline-offset: 2px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: var(--tap);
+  padding: 0 20px;
+  border: 1px solid transparent;
+  border-radius: var(--r-md);
+  background: var(--iron-2);
+  color: var(--chalk);
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.btn:active { transform: translateY(1px); }
+.btn.primary { background: var(--chalk); color: var(--iron-0); }
+.btn.go { background: var(--go); color: var(--on-go); }
+.btn.ghost { background: transparent; border-color: var(--line); }
+.btn.danger { background: transparent; border-color: color-mix(in srgb, var(--plate-red) 50%, transparent); color: var(--ink-red); }
+.btn.block { width: 100%; }
+.btn.sm { min-height: 36px; padding: 0 12px; font-size: 0.9rem; border-radius: var(--r-sm); }
+
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: var(--r-sm);
+  background: transparent;
+  color: var(--chalk-dim);
+}
+.icon-btn:hover { background: var(--iron-2); color: var(--chalk); }
+.icon-btn.round { border-radius: 50%; background: var(--iron-1); color: var(--chalk); }
+.icon-btn.round:hover { background: var(--iron-2); }
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--chalk-dim);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.chip[aria-pressed='true'] { background: var(--chalk); border-color: var(--chalk); color: var(--iron-0); }
+
+input[type='checkbox'] {
+  appearance: none;
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  border: 1.5px solid var(--chalk-faint);
+  border-radius: 6px;
+  background: transparent;
+  vertical-align: middle;
+}
+input[type='checkbox']::after {
+  content: '';
+  width: 6px;
+  height: 11px;
+  margin-top: -2px;
+  border: solid var(--iron-0);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg) scale(0);
+}
+input[type='checkbox']:checked { border-color: var(--chalk); background: var(--chalk); }
+input[type='checkbox']:checked::after { transform: rotate(45deg) scale(1); }
+input[type='checkbox']:disabled { opacity: 0.4; }
+
+/* A checkbox drawn as a switch, for settings that take effect at once. */
+input[type='checkbox'].switch {
+  position: relative;
+  width: 44px;
+  height: 26px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--iron-3);
+  transition: background 0.15s;
+}
+input[type='checkbox'].switch::after {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--chalk-dim);
+  transform: none;
+  transition: transform 0.15s, background 0.15s;
+}
+input[type='checkbox'].switch:checked { background: var(--chalk); }
+input[type='checkbox'].switch:checked::after { background: var(--iron-0); transform: translateX(18px); }
+
+.surface {
+  background: var(--iron-1);
+  border-radius: var(--r-lg);
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+}
+.field > span { font-size: 0.9375rem; color: var(--chalk-dim); }
+
+.input {
+  width: 100%;
+  min-height: var(--tap);
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--iron-0);
+}
+.input:focus { border-color: var(--chalk-dim); outline: none; }
+textarea.input { padding: 12px 14px; min-height: 96px; resize: vertical; }
+
+.row { display: flex; align-items: center; gap: 12px; }
+.spread { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.stack { display: grid; gap: 12px; }
+.scroll-x { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin: 0 -16px; padding: 0 16px; }
+.scroll-x::-webkit-scrollbar { display: none; }
+
+.list { list-style: none; margin: 0; padding: 0; }
+.list > li + li { border-top: 1px solid var(--line); }
+/* Row titles stay lighter than section headings so the headings lead. */
+.list .h3 { font-weight: 500; }
+
+button.list-link { width: 100%; border: 0; background: none; text-align: left; }
+.list-link > svg:first-child { flex: none; color: var(--chalk-dim); }
+.list-link.destructive, .list-link.destructive > svg:first-child { color: var(--ink-red); }
+
+.list-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 60px;
+  padding: 10px 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* Page scaffolding shared by every screen. */
+.page { display: grid; gap: 28px; }
+.page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.section { display: grid; gap: 12px; }
+.back {
+  display: inline-flex; align-items: center; gap: 4px; margin-left: -8px; min-height: 40px; padding: 0 8px;
+  color: var(--chalk-dim); text-decoration: none; font-weight: 500;
+}
+.pad { padding: 16px; }
+.seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 2px; padding: 3px; border-radius: var(--r-md); background: var(--iron-1); }
+.seg button {
+  min-height: 38px; border: 0; border-radius: 9px; background: transparent; color: var(--chalk-dim);
+  font-weight: 500; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 8px;
+}
+.seg button[aria-pressed='true'], .seg button[aria-selected='true'] { background: var(--iron-3); color: var(--chalk); }
+.gym-dot { display: inline-block; flex: none; width: 10px; height: 10px; border-radius: 50%; }

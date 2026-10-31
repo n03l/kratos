@@ -1,0 +1,616 @@
+[
+  {
+    "id": "squat",
+    "name": "Squat (barbell)",
+    "equipment": "barbell",
+    "muscles": [
+      "quads",
+      "glutes"
+    ],
+    "fitnotes": [
+      "Barbell Squat"
+    ],
+    "restSec": 120
+  },
+  {
+    "id": "hacksquat",
+    "name": "Squat (hack machine)",
+    "equipment": "machine",
+    "muscles": [
+      "quads",
+      "glutes"
+    ],
+    "fitnotes": [
+      "Hack Squat Machine"
+    ],
+    "restSec": 90
+  },
+  {
+    "id": "lunge",
+    "name": "Lunge (barbell)",
+    "equipment": "barbell",
+    "muscles": [
+      "quads",
+      "glutes"
+    ],
+    "fitnotes": [
+      "Barbell Lunge"
+    ],
+    "restSec": 120
+  },
+  {
+    "id": "legpress",
+    "name": "Leg press",
+    "equipment": "machine",
+    "muscles": [
+      "quads",
+      "glutes"
+    ],
+    "fitnotes": [
+      "Leg Press"
+    ],
+    "restSec": 90
+  },
+  {
+    "id": "legext",
+    "name": "Leg extension",
+    "equipment": "machine",
+    "muscles": [
+      "quads"
+    ],
+    "fitnotes": [
+      "Leg Extension Machine"
+    ]
+  },
+  {
+    "id": "rdl",
+    "name": "Deadlift (Romanian)",
+    "equipment": "barbell",
+    "muscles": [
+      "hamstrings",
+      "glutes"
+    ],
+    "fitnotes": [
+      "Romanian Deadlift"
+    ],
+    "restSec": 120
+  },
+  {
+    "id": "legcurl",
+    "name": "Leg curl (seated)",
+    "equipment": "machine",
+    "muscles": [
+      "hamstrings"
+    ],
+    "fitnotes": [
+      "Seated Leg Curl Machine"
+    ]
+  },
+  {
+    "id": "lyingcurl",
+    "name": "Leg curl (lying)",
+    "equipment": "machine",
+    "muscles": [
+      "hamstrings"
+    ],
+    "fitnotes": [
+      "Lying Leg Curl Machine"
+    ]
+  },
+  {
+    "id": "bench",
+    "name": "Bench press (barbell)",
+    "equipment": "barbell",
+    "muscles": [
+      "chest",
+      "triceps"
+    ],
+    "fitnotes": [
+      "Flat Barbell Bench Press"
+    ],
+    "restSec": 90
+  },
+  {
+    "id": "inclinebench",
+    "name": "Bench press (barbell, incline)",
+    "equipment": "barbell",
+    "muscles": [
+      "chest",
+      "triceps"
+    ],
+    "fitnotes": [
+      "Incline Barbell Bench Press"
+    ],
+    "restSec": 90
+  },
+  {
+    "id": "incdb",
+    "name": "Bench press (dumbbell, incline)",
+    "equipment": "dumbbell",
+    "muscles": [
+      "chest",
+      "triceps"
+    ],
+    "fitnotes": [
+      "Incline Dumbbell Bench Press"
+    ]
+  },
+  {
+    "id": "chestpress",
+    "name": "Chest press (seated machine)",
+    "equipment": "machine",
+    "muscles": [
+      "chest",
+      "triceps"
+    ],
+    "fitnotes": [
+      "Seated Chest Press"
+    ]
+  },
+  {
+    "id": "inclinechestpress",
+    "name": "Chest press (machine, incline)",
+    "equipment": "machine",
+    "muscles": [
+      "chest",
+      "triceps"
+    ],
+    "fitnotes": [
+      "Incline Chest Press"
+    ]
+  },
+  {
+    "id": "cablefly",
+    "name": "Fly (seated cable)",
+    "equipment": "cable",
+    "muscles": [
+      "chest"
+    ],
+    "fitnotes": [
+      "Seated Cable Flyes"
+    ]
+  },
+  {
+    "id": "landmine",
+    "name": "Landmine press",
+    "equipment": "barbell",
+    "muscles": [
+      "shoulders",
+      "triceps"
+    ],
+    "fitnotes": [
+      "Landmine Press"
+    ]
+  },
+  {
+    "id": "dbpress",
+    "name": "Overhead press (dumbbell, seated)",
+    "equipment": "dumbbell",
+    "muscles": [
+      "shoulders",
+      "triceps"
+    ],
+    "fitnotes": [
+      "Seated Dumbbell Overhead Press"
+    ]
+  },
+  {
+    "id": "lateral",
+    "name": "Lateral raise (dumbbell)",
+    "equipment": "dumbbell",
+    "muscles": [
+      "shoulders"
+    ],
+    "fitnotes": [
+      "Lateral Dumbbell Raise"
+    ]
+  },
+  {
+    "id": "cablelateral",
+    "name": "Lateral raise (cable)",
+    "equipment": "cable",
+    "muscles": [
+      "shoulders"
+    ],
+    "fitnotes": [
+      "Cable Lateral Raise"
+    ],
+    "restSec": 45
+  },
+  {
+    "id": "machinelateral",
+    "name": "Lateral raise (machine)",
+    "equipment": "machine",
+    "muscles": [
+      "shoulders"
+    ],
+    "fitnotes": [
+      "Lateral Machine Raise"
+    ]
+  },
+  {
+    "id": "uprightrow",
+    "name": "Upright row (dumbbell)",
+    "equipment": "dumbbell",
+    "muscles": [
+      "shoulders"
+    ],
+    "fitnotes": [
+      "Upright Dumbbell Row"
+    ]
+  },
+  {
+    "id": "cablereardelt",
+    "name": "Rear delt fly (cable)",
+    "equipment": "cable",
+    "muscles": [
+      "shoulders"
+    ],
+    "fitnotes": [
+      "Rear Delt Cable Fly"
+    ]
+  },
+  {
+    "id": "machinereardelt",
+    "name": "Rear delt fly (machine)",
+    "equipment": "machine",
+    "muscles": [
+      "shoulders"
+    ],
+    "fitnotes": [
+      "Rear Delt Machine Fly"
+    ]
+  },
+  {
+    "id": "facepull",
+    "name": "Face pull (rope)",
+    "equipment": "cable",
+    "muscles": [
+      "shoulders",
+      "back"
+    ],
+    "fitnotes": [
+      "Rope Face Pull"
+    ]
+  },
+  {
+    "id": "pullup",
+    "name": "Pull-up",
+    "equipment": "bodyweight",
+    "muscles": [
+      "back",
+      "biceps"
+    ],
+    "fitnotes": [
+      "Pull Up"
+    ],
+    "restSec": 90
+  },
+  {
+    "id": "neutralpullup",
+    "name": "Pull-up (neutral grip)",
+    "equipment": "bodyweight",
+    "muscles": [
+      "back",
+      "biceps"
+    ],
+    "fitnotes": [
+      "Neutral Grip Pull up"
+    ],
+    "restSec": 120
+  },
+  {
+    "id": "pulldown",
+    "name": "Lat pulldown",
+    "equipment": "cable",
+    "muscles": [
+      "back",
+      "biceps"
+    ],
+    "fitnotes": [
+      "Lat Pull Down"
+    ]
+  },
+  {
+    "id": "row",
+    "name": "Row (barbell)",
+    "equipment": "barbell",
+    "muscles": [
+      "back",
+      "biceps"
+    ],
+    "fitnotes": [
+      "Barbell Row"
+    ],
+    "restSec": 120
+  },
+  {
+    "id": "cablerow",
+    "name": "Row (seated cable)",
+    "equipment": "cable",
+    "muscles": [
+      "back",
+      "biceps"
+    ],
+    "fitnotes": [
+      "Seated Cable Row"
+    ]
+  },
+  {
+    "id": "trxrow",
+    "name": "Row (TRX)",
+    "equipment": "bodyweight",
+    "muscles": [
+      "back",
+      "biceps"
+    ],
+    "fitnotes": [
+      "TRX Rows"
+    ]
+  },
+  {
+    "id": "ringrow",
+    "name": "Row (rings)",
+    "equipment": "bodyweight",
+    "muscles": [
+      "back",
+      "biceps"
+    ],
+    "fitnotes": [
+      "Ring Rows"
+    ]
+  },
+  {
+    "id": "barbellcurl",
+    "name": "Curl (barbell)",
+    "equipment": "barbell",
+    "muscles": [
+      "biceps"
+    ],
+    "fitnotes": [
+      "Barbell Curl"
+    ]
+  },
+  {
+    "id": "ezcurl",
+    "name": "Curl (EZ-bar)",
+    "equipment": "barbell",
+    "muscles": [
+      "biceps"
+    ],
+    "fitnotes": [
+      "EZ-Bar Curl"
+    ]
+  },
+  {
+    "id": "seatedcurl",
+    "name": "Curl (dumbbell, seated)",
+    "equipment": "dumbbell",
+    "muscles": [
+      "biceps"
+    ],
+    "fitnotes": [
+      "Seated Dumbbell Curl"
+    ]
+  },
+  {
+    "id": "inclinecurl",
+    "name": "Curl (dumbbell, incline)",
+    "equipment": "dumbbell",
+    "muscles": [
+      "biceps"
+    ],
+    "fitnotes": [
+      "Incline Dumbbell Curl"
+    ]
+  },
+  {
+    "id": "hammercurl",
+    "name": "Curl (hammer)",
+    "equipment": "dumbbell",
+    "muscles": [
+      "biceps"
+    ],
+    "fitnotes": [
+      "Hammer Curl"
+    ]
+  },
+  {
+    "id": "ropehammercurl",
+    "name": "Curl (rope hammer)",
+    "equipment": "cable",
+    "muscles": [
+      "biceps"
+    ],
+    "fitnotes": [
+      "Cable Hammer (Rope) Curl"
+    ]
+  },
+  {
+    "id": "btbcurl",
+    "name": "Curl (behind-the-back cable)",
+    "equipment": "cable",
+    "muscles": [
+      "biceps"
+    ],
+    "fitnotes": [
+      "Behind The Back Biceps Cable Curl"
+    ]
+  },
+  {
+    "id": "wristcurl",
+    "name": "Wrist curl (dumbbell)",
+    "equipment": "dumbbell",
+    "muscles": [],
+    "fitnotes": [
+      "Dumbbell Forearm Curls"
+    ]
+  },
+  {
+    "id": "pushdown",
+    "name": "Pushdown (rope)",
+    "equipment": "cable",
+    "muscles": [
+      "triceps"
+    ],
+    "fitnotes": [
+      "Rope Push Down"
+    ]
+  },
+  {
+    "id": "sapushdown",
+    "name": "Pushdown (single-arm)",
+    "equipment": "cable",
+    "muscles": [
+      "triceps"
+    ],
+    "fitnotes": [
+      "Single Arm Cable Pushdown"
+    ]
+  },
+  {
+    "id": "reversepushdown",
+    "name": "Pushdown (single-arm, reverse grip)",
+    "equipment": "cable",
+    "muscles": [
+      "triceps"
+    ],
+    "fitnotes": [
+      "Single Arm Reverse Grip Pushdown"
+    ]
+  },
+  {
+    "id": "ohext",
+    "name": "Triceps extension (cable, overhead)",
+    "equipment": "cable",
+    "muscles": [
+      "triceps"
+    ],
+    "fitnotes": [
+      "Cable Overhead Extension"
+    ]
+  },
+  {
+    "id": "skullcrusher",
+    "name": "Skullcrusher (dumbbell)",
+    "equipment": "dumbbell",
+    "muscles": [
+      "triceps"
+    ],
+    "fitnotes": [
+      "Dumbbell Skullcrusher"
+    ]
+  },
+  {
+    "id": "machinedip",
+    "name": "Dip (machine)",
+    "equipment": "machine",
+    "muscles": [
+      "triceps",
+      "chest"
+    ],
+    "fitnotes": [
+      "Machine Triceps Dips"
+    ]
+  },
+  {
+    "id": "dip",
+    "name": "Dip (bodyweight)",
+    "equipment": "bodyweight",
+    "muscles": [
+      "triceps",
+      "chest"
+    ],
+    "fitnotes": [
+      "Tricep Dips"
+    ]
+  },
+  {
+    "id": "declinecrunch",
+    "name": "Crunch (decline)",
+    "equipment": "bodyweight",
+    "muscles": [
+      "core"
+    ],
+    "fitnotes": [
+      "Decline Crunch"
+    ],
+    "restSec": 60
+  },
+  {
+    "id": "vcrunch",
+    "name": "Crunch (V-crunch machine)",
+    "equipment": "machine",
+    "muscles": [
+      "core"
+    ],
+    "fitnotes": [
+      "V-Crunch Machine"
+    ]
+  },
+  {
+    "id": "kneeraise",
+    "name": "Knee raise (hanging)",
+    "equipment": "bodyweight",
+    "muscles": [
+      "core"
+    ],
+    "fitnotes": [
+      "Hanging Knee Raise"
+    ]
+  },
+  {
+    "id": "obliquekneeraise",
+    "name": "Knee raise (hanging, oblique)",
+    "equipment": "bodyweight",
+    "muscles": [
+      "core"
+    ],
+    "fitnotes": [
+      "Oblique Hanging Knee Rise"
+    ]
+  },
+  {
+    "id": "pallof",
+    "name": "Pallof press",
+    "equipment": "cable",
+    "muscles": [
+      "core"
+    ],
+    "fitnotes": [
+      "Pallof Press"
+    ]
+  },
+  {
+    "id": "cabletwist",
+    "name": "Twist (cable)",
+    "equipment": "cable",
+    "muscles": [
+      "core"
+    ],
+    "fitnotes": [
+      "Cable Twist"
+    ]
+  },
+  {
+    "id": "bodysaw",
+    "name": "Body saw",
+    "equipment": "bodyweight",
+    "muscles": [
+      "core"
+    ],
+    "fitnotes": [
+      "Body Saw"
+    ]
+  },
+  {
+    "id": "nohang",
+    "name": "No-hang lift",
+    "equipment": "other",
+    "muscles": [],
+    "measure": "time",
+    "fitnotes": [
+      "No Hangs"
+    ]
+  }
+]
