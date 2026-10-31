@@ -3,8 +3,8 @@
   import type { Snippet } from 'svelte';
   import type { Muscle } from '../model';
 
-  /** `height` draws a small pair of figures without captions, for lists; the summary goes in the label. */
-  let { sets, height }: { sets: Map<Muscle, number>; height?: number } = $props();
+  /** `height` draws a small pair of figures without captions, for lists; the summary goes in the label, or `label`. */
+  let { sets, height, label: name }: { sets: Map<Muscle, number>; height?: number; label?: string } = $props();
 
   const lv = (m: Muscle) => `m l${muscleLevel(sets.get(m) ?? 0)}`;
   const worked = $derived([...sets].filter(([, n]) => n > 0).sort((a, b) => b[1] - a[1]));
@@ -62,7 +62,7 @@
 {/snippet}
 
 {#if height}
-  <span class="mini" role="img" aria-label={summary} style:height="{Math.round(height)}px">
+  <span class="mini" role="img" aria-label={name ?? summary} style:height="{Math.round(height)}px">
     {@render figure(front)}
     {@render figure(back)}
   </span>

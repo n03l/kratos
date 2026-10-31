@@ -110,8 +110,8 @@ Timed exercises progress 5 seconds at a time.
   rehab). Archive or restore a whole plan at once, or add a day to it. Routines imported from FitNotes are already
   named this way.
 - **Exercises**: a built-in library named so related movements sort together (`Curl (dumbbell, incline)`,
-  `Leg curl (seated)`, `Row (seated cable)`), plus your own. Each exercise has its history, charts, records (with
-  a best-weight-by-reps table) and setup.
+  `Leg curl (seated)`, `Row (seated cable)`), plus your own. Each exercise shows the muscles it trains and has its
+  history, charts, records (with a best-weight-by-reps table) and setup.
 
 ## More than one gym
 

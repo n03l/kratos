@@ -7,6 +7,8 @@
   } from '../lib/store.svelte';
   import { exerciseNameProblem, exerciseUsage } from '../lib/logic/library';
   import ExerciseTags from '../lib/components/ExerciseTags.svelte';
+  import MuscleMap from '../lib/components/MuscleMap.svelte';
+  import { exerciseMuscles } from '../lib/logic/muscles';
   import { exerciseMeta, seconds, setText } from '../lib/format';
   import { navigate } from '../lib/router.svelte';
   import { e1rm, formatWeight, volume, workSets } from '../lib/logic/training';
@@ -112,8 +114,15 @@
   <section class="page">
     <div class="stack head">
       <a class="back" href="#/exercises"><Icon name="back" size={20} /> Exercises</a>
-      <h1 class="title name">{ex.name}</h1>
-      <p class="muted cap meta">{exerciseMeta(ex)}</p>
+      <div class="title-row">
+        <div class="grow-col">
+          <h1 class="title name">{ex.name}</h1>
+          <p class="muted cap meta">{exerciseMeta(ex)}</p>
+        </div>
+        {#if ex.muscles.length}
+          <MuscleMap sets={exerciseMuscles(ex)} height={72} label="Trains {ex.muscles.join(', ')}" />
+        {/if}
+      </div>
     </div>
 
     {#if ex.archived}
@@ -318,6 +327,8 @@
   .grow-col { flex: 1; display: grid; min-width: 0; }
   .val { font-size: 1.2rem; font-weight: 600; }
   .head { gap: 4px; }
+  .title-row { display: flex; align-items: center; gap: 12px; }
+  .title-row .grow-col { gap: 4px; }
   .name { overflow-wrap: anywhere; }
   .meta { margin: 0; }
   .cap { text-transform: capitalize; }

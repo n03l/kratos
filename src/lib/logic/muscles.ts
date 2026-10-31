@@ -21,6 +21,16 @@ export function routineSetsPerMuscle(r: Routine, exercise: (id: string) => Exerc
   return tally(r.blocks.flatMap((b) => b.items).map((p) => [p.exerciseId, plannedHardSets(p)]), exercise);
 }
 
+/** A set count `muscleLevel` shades fully. */
+const FULL = 6;
+
+/** The muscles an exercise lists, each at full shade (it has no primary/secondary split). Every muscle is present, from 0. */
+export function exerciseMuscles(ex: Exercise): Map<Muscle, number> {
+  const counts = new Map<Muscle, number>(MUSCLES.map((m) => [m, 0]));
+  for (const m of ex.muscles) if (counts.has(m)) counts.set(m, FULL);
+  return counts;
+}
+
 function tally(entries: [string, number][], exercise: (id: string) => Exercise | undefined): Map<Muscle, number> {
   const counts = new Map<Muscle, number>(MUSCLES.map((m) => [m, 0]));
   for (const [id, n] of entries) {
