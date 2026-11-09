@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { adjustRest, app, db, exercise, gym, lastSets, removeSet, shrinkRest, skipRest } from '../store.svelte';
+  import { adjustRest, app, db, exercise, expandRest, gym, lastSets, removeSet, shrinkRest, skipRest } from '../store.svelte';
   import { upNext } from '../logic/rest';
   import { setText } from '../format';
   import type { LoggedSet } from '../model';
@@ -84,7 +84,7 @@
   <div class="rest" class:over class:final role="timer" aria-label="Rest timer">
     <div class="track" aria-hidden="true"><div class="fill" style:transform="scaleX({frac})"></div></div>
     <div class="body">
-      <button class="info" onclick={() => (app.restFull = true)} aria-label="Open countdown, {left} seconds left">
+      <button class="info" onclick={expandRest} aria-label="Open countdown, {left} seconds left">
         <span class="clock num">{over ? 'Go' : clock}</span>
         <span class="caption">{over ? 'Rest over' : 'Rest'}</span>
       </button>

@@ -24,8 +24,9 @@ Kratos is a web app you install from the browser: open it in Chrome on Android o
 offline.
 
 Everything is stored on your phone. A workout in progress, including its rest timer, survives closing the app.
-To look around first, open **More → Load sample data**: it fills the app with made-up gyms, routines and 12 weeks
-of workouts. **More → Erase all data** starts again from scratch.
+To look around first, tap **Load sample data** on the empty Today screen (or open **More → Load sample data**): it
+fills the app with made-up gyms, routines and 12 weeks of workouts. **More → Erase all data** starts again from
+scratch.
 
 ## Training
 
@@ -56,9 +57,10 @@ planned, or save without them.
 
 ### Rest timer
 
-Logging a set starts the rest, full screen, with the next exercise and its target above the countdown. Tap the
+Logging a set starts the rest full screen, with the next exercise and its target above the countdown. Tap the
 next set to change its weight or reps while you rest. Use −15 s and +15 s to adjust the rest, close it to keep a
-small bar at the bottom, or skip it. A line at the bottom shows how far you are through the workout. When an exercise is finished, or
+small bar at the bottom, or skip it. Later rests open the same way until you open the bar again. A line at the
+bottom shows how far you are through the workout. When an exercise is finished, or
 you dismiss the rest, the page scrolls to the next set.
 
 - The rest comes from the exercise in this workout or routine, else the exercise's default, else the app default

@@ -152,8 +152,8 @@
     .tab[aria-current='page'] { background: var(--iron-1); }
     .live { position: static; margin-left: auto; }
     .shell { padding-left: 240px; }
-    /* Content sits beside the sidebar rather than floating in the middle of the window. */
-    main { max-width: 640px; margin: 0 0 0 clamp(32px, 5vw, 80px); padding-top: 40px; padding-bottom: 120px; }
+    /* Centre the column in the space beside the sidebar, so a wide window stays balanced. */
+    main { max-width: 640px; margin: 0 auto; padding-top: 40px; padding-bottom: 120px; }
     main.with-rest { padding-bottom: 140px; }
   }
 </style>

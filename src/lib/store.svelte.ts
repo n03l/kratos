@@ -579,12 +579,22 @@ function scrollToNext() {
   if (next) app.scrollTo = { setId: next.set.id, n: ++scrolls };
 }
 
+/** Remember whether the last rest opened full screen, so later rests match the choice. */
+let wantFullRest = true;
+
 export function startRest(sec: number, label: string) {
   unlockSound();
   // Refresh the clock too, or the first frame can show one second more than the rest.
   app.now = Date.now();
   app.rest = sec > 0 ? { endsAt: app.now + sec * 1000, total: sec, label } : null;
-  app.restFull = app.rest !== null;
+  app.restFull = app.rest !== null && wantFullRest;
+}
+
+/** Open the full-screen countdown from the bar. */
+export function expandRest() {
+  if (!app.rest) return;
+  app.restFull = true;
+  wantFullRest = true;
 }
 
 export function adjustRest(deltaSec: number) {
@@ -606,6 +616,7 @@ export function skipRest() {
 export function shrinkRest() {
   if (!app.restFull) return;
   app.restFull = false;
+  wantFullRest = false;
   scrollToNext();
 }
 

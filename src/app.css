@@ -227,6 +227,10 @@ textarea.input { padding: 12px 14px; min-height: 96px; resize: vertical; }
 .stack { display: grid; gap: 12px; }
 .scroll-x { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin: 0 -16px; padding: 0 16px; }
 .scroll-x::-webkit-scrollbar { display: none; }
+/* The filter rows fit on a wide screen; let them wrap instead of hiding chips off the edge. */
+@media (min-width: 900px) {
+  .scroll-x { flex-wrap: wrap; overflow-x: visible; margin: 0; padding: 0; }
+}
 
 .list { list-style: none; margin: 0; padding: 0; }
 .list > li + li { border-top: 1px solid var(--line); }

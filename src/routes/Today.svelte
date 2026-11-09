@@ -3,7 +3,9 @@
   import GymChip from '../lib/components/GymChip.svelte';
   import Icon from '../lib/components/Icon.svelte';
   import MuscleMap from '../lib/components/MuscleMap.svelte';
-  import { activeRoutines, app, db, exercise, gym, gymColor, startWorkout } from '../lib/store.svelte';
+  import Sheet from '../lib/components/Sheet.svelte';
+  import { activeRoutines, app, db, exercise, gym, gymColor, replaceData, startWorkout } from '../lib/store.svelte';
+  import { seed } from '../lib/repo/mock';
   import { navigate } from '../lib/router.svelte';
   import { clock, dayLabel, startOfDay, startOfWeek, tonnes } from '../lib/format';
   import { volume } from '../lib/logic/training';
@@ -48,6 +50,16 @@
     startWorkout(r?.id);
     navigate('/workout');
   }
+
+  let sampleOpen = $state(false);
+  let loadingSample = $state(false);
+
+  async function loadSample() {
+    loadingSample = true;
+    await replaceData(seed());
+    loadingSample = false;
+    sampleOpen = false;
+  }
 </script>
 
 <section class="page">
@@ -75,7 +87,7 @@
       <p class="muted">Pick exercises, set reps, rest and progression, and group exercises into supersets. Or just start lifting and log as you go.</p>
       <a class="btn primary block" href="#/routines">Create a routine</a>
       <button class="btn ghost block" onclick={() => start()}><Icon name="plus" /> Start empty workout</button>
-      <p class="small faint">Want to look around first? Load sample data from More.</p>
+      <p class="small faint">Want to look around first? <button class="link-btn" onclick={() => (sampleOpen = true)}>Load sample data</button></p>
     </article>
   {:else}
     <article class="next surface">
@@ -143,6 +155,16 @@
   {/if}
 </section>
 
+<Sheet bind:open={sampleOpen} title="Load sample data?">
+  <div class="stack">
+    <p class="muted">Sample gyms, routines and 12 weeks of made-up workouts replace your data on this device.</p>
+    <button class="btn primary block" onclick={loadSample} disabled={loadingSample}>
+      {loadingSample ? 'Loading…' : 'Replace with sample data'}
+    </button>
+    <button class="btn ghost block" onclick={() => (sampleOpen = false)}>Cancel</button>
+  </div>
+</Sheet>
+
 <style>
   .when { display: grid; grid-template-columns: auto 1fr; column-gap: 12px; align-items: center; }
   .when .date { grid-column: 2; }
@@ -155,6 +177,10 @@
   .date { margin: 0 0 2px; }
   .grow { flex: 1; min-width: 0; display: grid; }
   .plain { text-decoration: none; color: inherit; }
+  .link-btn {
+    padding: 0; border: 0; background: none; color: var(--chalk); font: inherit;
+    text-decoration: underline; text-underline-offset: 2px;
+  }
 
   .resume {
     display: flex; align-items: center; gap: 14px; padding: 16px; text-decoration: none; color: inherit;

@@ -81,6 +81,10 @@
     </div>
   </div>
 
+  {#if list.length}
+    <p class="small faint legend"><Icon name="pin" size={14} /> Machines and cables keep separate history at each gym. Weights show your last top set here.</p>
+  {/if}
+
   <ul class="list">
     {#each list as e (e.id)}
       {@const top = topSet(e)}
@@ -118,7 +122,6 @@
       </ul>
     {/if}
   {/if}
-  <p class="small faint legend"><Icon name="pin" size={14} /> Machines and cables keep separate history at each gym. Weights show your last top set here.</p>
 </section>
 
 <Sheet bind:open={creating} title="New exercise">

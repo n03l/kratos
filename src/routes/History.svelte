@@ -108,9 +108,14 @@
       </ul>
     </section>
   {:else}
-    <div class="surface pad">
+    <div class="surface pad stack">
       <p class="h3">No workouts here yet</p>
       <p class="muted small">Workouts you finish{gymFilter ? ` at ${gym(gymFilter)?.name}` : ''} show up in this list.</p>
+      {#if gymFilter}
+        <button class="btn ghost" onclick={() => (gymFilter = null)}>Show all gyms</button>
+      {:else}
+        <a class="btn primary" href="#/">Go to Today</a>
+      {/if}
     </div>
   {/each}
   {#if sessions.length > shown}

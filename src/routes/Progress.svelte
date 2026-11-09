@@ -113,6 +113,7 @@
           </li>
         {/each}
       </ul>
+      <a class="more-link small" href="#/exercises">See all exercises</a>
     </section>
   {/if}
 
@@ -206,6 +207,7 @@
   .rec { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; }
   .rec :global(svg) { flex: none; color: var(--plate-yellow); margin-top: 2px; }
   .grow { display: grid; min-width: 0; text-decoration: none; }
+  .more-link { justify-self: end; color: var(--chalk-dim); text-decoration: underline; text-underline-offset: 3px; }
   .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   @media (max-width: 420px) { .measures { grid-template-columns: repeat(2, 1fr); } }
 </style>
