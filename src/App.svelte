@@ -115,10 +115,15 @@
     place-items: center;
     align-content: center;
     gap: 2px;
+    min-width: 0;
+    overflow: hidden;
     color: var(--chalk-faint);
     text-decoration: none;
     font-size: 0.8125rem;
     font-weight: 500;
+  }
+  .tab > span:not(.live) {
+    max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   }
   .tab[aria-current='page'] { color: var(--chalk); }
   .live {

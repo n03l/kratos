@@ -14,11 +14,14 @@
 <script lang="ts">
   let {
     points, kind = 'line', unit = 'kg', title, showTitle = true, legend = [], height = 180, digits = 1,
+    empty = 'Nothing logged yet. Finish a workout with this exercise to see it here.',
   }: {
     points: Point[]; kind?: 'line' | 'bars'; unit?: string; title: string;
     /** False when the surrounding panel already shows the title. */
     showTitle?: boolean;
     legend?: LegendItem[]; height?: number; digits?: number;
+    /** What to say when there is nothing to plot yet. */
+    empty?: string;
   } = $props();
 
   let width = $state(320);
@@ -105,7 +108,7 @@
   </figcaption>
 
   {#if sorted.length === 0}
-    <p class="muted small empty">Nothing logged yet. Finish a workout with this exercise to see it here.</p>
+    <p class="muted small empty">{empty}</p>
   {:else}
     <div class="plot" bind:clientWidth={width}>
       <svg {width} {height} role="img" aria-label="{title}: {sorted.length} points, latest {fmt(last!.y)} {unit}"
@@ -167,8 +170,8 @@
   .legend { display: flex; flex-wrap: wrap; gap: 4px 12px; color: var(--chalk-dim); justify-content: flex-end; }
   .key { display: inline-flex; align-items: center; gap: 6px; }
   .key i { width: 8px; height: 8px; border-radius: 50%; }
-  .plot { position: relative; touch-action: pan-y; }
-  svg { display: block; overflow: visible; }
+  .plot { position: relative; min-width: 0; touch-action: pan-y; }
+  svg { display: block; max-width: 100%; overflow: visible; }
   .grid { stroke: var(--iron-3); stroke-width: 1; }
   .tick { fill: var(--chalk-faint); font: 500 12px var(--font-num); }
   .line { fill: none; stroke: var(--chalk); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; opacity: 0.85; }

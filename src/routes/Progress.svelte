@@ -91,7 +91,8 @@
         {/if}
       </p>
     </div>
-    <Chart title="Body weight" showTitle={false} points={weightPoints} legend={weightLegend} height={160} />
+    <Chart title="Body weight" showTitle={false} points={weightPoints} legend={weightLegend} height={160}
+      empty="Log your weight to see it here." />
   </section>
 
   {#if lifts.length}

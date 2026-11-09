@@ -269,7 +269,7 @@
   .plan { margin: 0 0 2px; }
   .where { display: flex; align-items: center; gap: 8px; margin: 6px 0 0; }
   .details { margin-top: 14px; white-space: normal; text-align: center; }
-  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 0; }
+  .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 0; }
   .stats div { padding: 12px; border-radius: var(--r-md); background: var(--iron-1); }
   dt { font-size: 0.9375rem; color: var(--chalk-dim); }
   dd { margin: 0; font-size: 1.5rem; font-weight: 600; white-space: nowrap; }
@@ -301,4 +301,5 @@
   .two .input { min-width: 0; padding: 0 10px; }
   .error { margin: 0; color: var(--ink-red); }
   @media (max-width: 400px) { dd { font-size: 1.2rem; } .stats div { padding: 10px; } }
+  @media (max-width: 370px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 </style>
