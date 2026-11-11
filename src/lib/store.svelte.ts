@@ -83,7 +83,9 @@ export async function init() {
   if (canSave) {
     try {
       const draft = parseDraft(await repo.loadDraft(), app.data);
-      if (draft) {
+      // A draft whose workout is already saved (a tab that closed between the two writes) is stale.
+      if (draft && app.data.sessions.some((x) => x.id === draft.session.id)) void clearDraft();
+      else if (draft) {
         app.active = draft.session;
         app.gymId = draft.session.gymId;
         // A rest that ended long ago is stale; one still running continues where it was.
@@ -197,6 +199,8 @@ async function saveNow() {
   }
   try {
     await repo.save(snap);
+    // Until this write lands, the draft is the only copy of a workout that was just finished, so it goes after it.
+    if (!app.active) await clearDraft();
     if (app.storageError.startsWith('Saving failed')) app.storageError = '';
     scheduleSync();
   } catch (err) {
@@ -208,17 +212,32 @@ async function saveNow() {
 async function saveDraftNow() {
   clearTimeout(draftTimer);
   draftTimer = undefined;
-  if (!canSave || !app.data) return;
-  const draft = app.active ? { session: $state.snapshot(app.active), rest: $state.snapshot(app.rest) } : null;
+  // A finished or discarded workout clears the draft instead (see clearDraft).
+  if (!canSave || !app.data || !app.active) return;
+  const draft = { session: $state.snapshot(app.active), rest: $state.snapshot(app.rest) };
   try {
     // A draft the app couldn't read back would be dropped on the next start, losing the workout.
-    if (draft) parseDraft(JSON.parse(JSON.stringify(draft)), app.data);
+    parseDraft(JSON.parse(JSON.stringify(draft)), app.data);
   } catch (err) {
     app.storageError = `Saving the workout in progress failed: ${(err as Error).message}`;
     return;
   }
   try {
     await repo.saveDraft(draft);
+    if (app.storageError.startsWith('Saving the workout')) app.storageError = '';
+  } catch (err) {
+    if (err instanceof OtherTabError) lostToOtherTab();
+    else app.storageError = `Saving the workout in progress failed: ${(err as Error).message}`;
+  }
+}
+
+/**
+ * Delete the workout draft. Only after the snapshot holding its workout has been saved, or when the workout is
+ * discarded: clearing it earlier loses a workout that a tab closing in between never got to save.
+ */
+async function clearDraft() {
+  try {
+    await repo.saveDraft(null);
     if (app.storageError.startsWith('Saving the workout')) app.storageError = '';
   } catch (err) {
     if (err instanceof OtherTabError) lostToOtherTab();
@@ -756,7 +775,7 @@ export function finishWorkout(): { id: string } | { error: string } | null {
   app.gymNotice = null;
   app.setTimer = null;
   // Finishing is a tap, so Google may open its sign-in window if the token expired.
-  void flush().then(() => app.sync.state && syncNow(true));
+  void saveNow().then(() => app.sync.state && syncNow(true));
   return { id: session.id };
 }
 
@@ -839,6 +858,7 @@ export function discardWorkout() {
   app.rest = null;
   app.gymNotice = null;
   app.setTimer = null;
+  void clearDraft();
 }
 
 /** Save a day's body weight and measurements; values outside what a backup accepts are left out. */
